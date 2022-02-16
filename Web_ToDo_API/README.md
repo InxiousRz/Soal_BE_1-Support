@@ -1,6 +1,6 @@
 # TodoApp API Example
 
-This project was generated with Express JS
+This project was generated with Express JS and was an Example API for ToDo Project
 
 ## Development server
 
