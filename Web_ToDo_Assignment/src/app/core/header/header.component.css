@@ -1,0 +1,50 @@
+
+
+#header {
+    width: 100%;
+    min-height: 100px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#header-right {
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding-right: 60px;
+}
+
+#header-left {
+    width: 35%;
+    height: 100%;
+    left: 0;
+    padding-left: 60px;
+}
+
+#date-now-info {
+    font-size: 24pt;
+    margin: 10px 0px 10px 0px;
+}
+
+#date-now-info-label {
+    font-size: 12pt;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #3cbd00;
+    color: #FFFFFF;
+    padding: 5px 10px 5px 10px;
+    margin: 0px 0px 10px 0px;
+}
+
+.ovw-icon-header {
+    font-size: 24pt;    
+}
+
+.ovw-icon-header:hover {
+    cursor: pointer;  
+}

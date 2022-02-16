@@ -1,0 +1,251 @@
+
+
+
+<div class="wide tall flex-c-cs" style="background-color: #f1f1f1; min-height: 100vh;">
+    
+    <app-side-nav *ngIf="show_sidenav == true;" (side_nav_event)="sideNavHandler($event)"></app-side-nav>
+
+    <!-- HEADER -->
+    <div class="wide">
+        <app-header (side_nav_event)="sideNavHandler($event)" [header_title]="header_title"></app-header>
+    </div>
+
+    <div style="color: #0d6efd; font-size: 26pt; padding: 50px 0 0 0;">
+        Search Filter
+    </div>
+
+    <!-- TODO FILTER -->
+    <div class="wide flex-r-cm" style="margin: 40px 0 60px 0; padding: 10px 0 10px 0">
+        <form style="padding: 10px;">
+            <div class="form-group">
+                <label for="exampleInputText">Task Title</label>
+                <input type="text" class="form-control" id="exampleInputText" aria-describedby="titleHelp" placeholder="Enter Task Name" [(ngModel)]="search_title" name="search_title"> 
+                <small *ngIf="(search_title_error == '')" id="titleHelp" class="form-text text-muted">
+                    Input a task title
+                </small>
+                <div *ngIf="(search_title_error != '')" class="invalid-input-form">
+                    {{search_title_error}}
+                </div>
+                </div>
+        </form>
+        <form style="padding: 10px;">
+            <!-- SET DATE START -->
+            <div class="form-group">
+                <label for="exampleInputText1">Action Date Start</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd-mm-yyyy"
+                            name="d" #c="ngModel" [(ngModel)]="search_date_start" ngbDatepicker #d="ngbDatepicker" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="d.toggle()">
+                            <!-- calendar-alt -->
+                            <fa-icon icon="calendar-alt" class="ovw-icon-calendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+                <small *ngIf="(search_date_start_error == '')" id="titlelHelp" class="form-text text-muted">
+                    Select date for your task
+                </small>
+                <div *ngIf="(search_date_start_error != '')" class="invalid-input-form">
+                    {{search_date_start_error}}
+                </div>
+            </div>
+        </form>
+        <form style="padding: 10px;">
+            <!-- SET DATE END -->
+            <div class="form-group">
+                <label for="exampleInputText2">Action Date Until</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd-mm-yyyy"
+                            name="d2" #c2="ngModel" [(ngModel)]="search_date_end" ngbDatepicker #d2="ngbDatepicker" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon3" (click)="d2.toggle()">
+                            <!-- calendar-alt -->
+                            <fa-icon icon="calendar-alt" class="ovw-icon-calendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+                <small *ngIf="(search_date_end_error == '')" id="titlelHelp" class="form-text text-muted">
+                    Select date for your task
+                </small>
+                <div *ngIf="(search_date_end_error != '')" class="invalid-input-form">
+                    {{search_date_end_error}}
+                </div>
+            </div>
+        </form>
+
+        <!-- EDIT BUTTON -->
+        <div *ngIf="search_btn_loading_state == true; then search_loading_view else search_button_view" >
+            
+        </div>
+        <ng-template #search_button_view>
+            <form style="padding: 10px 10px 26px 10px;">
+                <button type="submit" class="btn btn-primary" (click)="searchToDoList()">Search</button>
+            </form>
+        </ng-template>
+        
+        <ng-template #search_loading_view>
+            <form style="padding: 10px 10px 26px 10px;">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </form>
+        </ng-template>
+
+    </div> 
+
+
+    <div class="wide flex-c-cm"  style="background-color: #FFFFFF;" >
+
+        <!-- Line -->
+        <div class="wide-90 flex-r-cm" style="border-bottom: 2px solid #000000; padding-bottom: 20px; padding-top: 20px;">
+            <div style="width: 50%; text-align: left; margin-left: 50px;">
+                Data Per Page : 
+                <select class="form-select" aria-label="Total Data Per Page" [(ngModel)]="data_per_page" name="data_per_page" (ngModelChange)="selectDataPerPageHandler($event)">
+                    <option selected value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            <div style="width: 50%; text-align: right; margin-right: 50px;">
+                Total {{total_data}} Task
+            </div>
+        </div>
+
+        <!-- TODO LIST -->
+        <!-- Task -->
+        <div *ngIf="search_loading_state == true; then loading_view else task_view" class="wide flex-c-cm">
+        </div>
+
+
+        <ng-template #task_view>
+            
+            <div class="wide-90 flex-c-cm">
+                
+                <!-- CONTAINER FORMATION -->
+
+                <div id="task-scroll-box" class="wide flex-c-cm wide"  style="overflow: hidden;">
+                    <!-- TASK PER DAY CONTAINER 2-->
+                    <div *ngFor="let task of todo_data_list; let i = index" class="task-node-box-2 wide tall flex-r-cm box-hover-an" (click)="openDetailForm(task['Task_ID'])">
+
+                        <div class="wide tall flex-c-cm">
+                            
+
+                            <!-- TASK NODE -->
+                            <div class="wide tall-80 wide flex-c-em">
+                                <div class="flex-r-ss" style="margin-bottom: 15px; width: 100%;">
+                                    <div class="task-node-title" style="float: left; flex-grow: 1;">
+                                        {{cutTitle(task["Title"])}}
+                                    </div>
+                                    <!-- TASK NODE END -->
+                                    <div class="flex-r-em" style="margin-right: 10px; font-size:14pt; font-weight: 600; color: #0d6efd; float: right; min-width: 160px;">
+                                        {{task["String_Created_Date"]}}
+                                    </div>
+                                </div>
+
+                                
+
+                                <div class="wide flex-r-sm" style="margin-bottom: 10px;">
+                                    <div style="text-align: center;">
+                                        <div class="task-progress-info blue">
+                                            {{task["Counter_Data"]["Count_All"]}} Objective
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div class="task-progress-info green">
+                                            {{task["Counter_Data"]["Count_Finish"]}} finished
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div class="task-progress-info red">
+                                            {{task["Counter_Data"]["Count_Unfinish"]}} unfinished
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    {{cutText(task["Sumary_String"])}}
+                                </div>
+                                
+                            </div>
+
+                            <!-- TASK NODE END -->
+                            <div class="wide tall-20 flex-r-cm">
+                                <div class="flex-r-sm" style="width: 50%; font-size:14pt; color: #198754; font-weight: 600;">
+                                    <span *ngIf="task['Is_Finished'] == true;">
+                                        Completed
+                                    </span>
+                                </div>
+                                <div class="flex-r-em" style="width: 50%; padding-right: 20px; font-size:10pt">
+                                    Last Update at {{task["Last_Update_String"]}}
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- VIEW HOVER -->
+                        <div class="tall task-box-view-hover-2"> 
+                            <!-- eye -->
+                            <fa-icon icon="eye" class=""></fa-icon>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <ngb-pagination *ngIf="total_data > 0;" [collectionSize]="total_data" [pageSize]="data_per_page" [(page)]="page" (pageChange)="pageHandler($event)" [boundaryLinks]="true">
+                <ng-template ngbPaginationPages let-page let-pages="pages">
+                    <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                        <div class="mb-3 d-flex flex-nowrap px-2">
+                        <label
+                            id="paginationInputLabel"
+                            for="paginationInput"
+                            class="col-form-label me-2 ms-1"
+                            style="margin-right: 10px;"
+                        >
+                            Page
+                        </label>
+                        <input disabled #i
+                            type="text"
+                            inputmode="numeric"
+                            pattern="[0-9]*"
+                            class="form-control custom-pages-input"
+                            id="paginationInput"
+                            [value]="page"
+                            aria-labelledby="paginationInputLabel paginationDescription"
+                            style="width: 2.5rem"
+                        />
+                        <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                            of {{pages.length}}</span>
+                        </div>
+                    </li>
+                </ng-template>
+            </ngb-pagination>
+
+        </ng-template>
+
+        <ng-template #loading_view>
+            
+            <div class="wide-90 flex-r-cm" style="min-height: 30vh;">
+                <div class="spinner-grow text-primary" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+        </ng-template>
+
+    </div>
+    
+
+    
+</div>

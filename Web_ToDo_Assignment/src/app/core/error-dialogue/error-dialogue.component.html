@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Error Occurred</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="overflow: auto; max-height: 70vh;">
+    <p><strong style="color: #000000;">Detail : </strong></p>
+    
+    <div *ngIf="on != '';" style="border: 1px solid #4e4e4e; background-color: #ffffff; color: rgb(0, 0, 0); font-size: 12pt; white-space: pre-wrap; padding: 10px; margin: 10px; word-wrap:break-word">
+        <p >
+            {{on}}
+        </p>
+    </div>
+
+    <p><strong style="color: #000000;">Return : </strong></p>
+    <p><strong style="color: #003ab8;">STATUS CODE {{status_code}} </strong></p>
+    <div style="border: 1px solid #4e4e4e; white-space: pre-wrap; font-size: 12pt; padding: 10px; margin: 10px; word-wrap:break-word">
+        <p style="color: #000000;">
+            {{error}}
+        </p>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close(true)">Ok</button>
+</div>

@@ -1,0 +1,21 @@
+<div id="header">
+    <!-- NAV SPAWN -->
+    <div id="header-left" class="flex-r-sm">
+        <div (click)="showSideNav()" class="ovw-icon-header" style="padding: 10px;">
+            <fa-icon icon="bars" ></fa-icon>
+        </div>
+        <div style="margin-left: 20px; font-size:18pt">
+            {{header_title}}
+        </div>
+    </div>
+
+    <!-- TODAY -->
+    <div id="header-right" >
+        <div id="date-now-info">
+            {{time_now_desc}}
+        </div>
+        <div id="date-now-info-label">
+            Today
+        </div>
+    </div>
+</div>
