@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Confirmation Dialog</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+    <p><strong style="color: #000000;">Are you sure you want to : </strong></p>
+    <div *ngIf="warn != '';">
+        
+        <p style="color: #000000;">
+                {{warn}}
+            <strong *ngIf="warn_target != '';" style="color: #0d6efd;">
+                "{{warn_target}}"
+            </strong>
+        </p>
+    </div>
+    <div *ngIf="dangerous_warn != '';">
+        <div *ngIf="type == 'WARNING'; then red_text else blue_text">
+
+        </div>
+        <ng-template #red_text>
+            <p style="background-color: #fffef4; color: rgb(0, 0, 0); font-size: 10pt;">
+                {{dangerous_warn}}
+                <strong>This operation can not be undone.</strong>
+            </p>
+        </ng-template>
+        <ng-template #blue_text>
+            <p style="background-color: #fffef4; color: rgb(0, 0, 0); font-size: 10pt;">
+                {{dangerous_warn}}
+                <strong>This operation can not be undone.</strong>
+            </p>
+        </ng-template>
+        
+    </div>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(false)">Cancel</button>
+    <div *ngIf="type == 'WARNING'; then red_btn else blue_btn">
+
+    </div>
+    <ng-template #red_btn>
+        <button type="button" class="btn btn-danger" (click)="modal.close(true)">Ok</button>
+    </ng-template>
+    <ng-template #blue_btn>
+        <button type="button" class="btn btn-primary" (click)="modal.close(true)">Ok</button>
+    </ng-template>
+</div>

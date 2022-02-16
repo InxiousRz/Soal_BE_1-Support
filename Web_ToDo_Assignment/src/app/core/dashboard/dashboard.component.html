@@ -1,0 +1,50 @@
+
+
+
+<div [ngClass]="dashboard_class" style="background-color: #f1f1f1; min-height: 100vh;">
+    
+    <app-side-nav *ngIf="show_sidenav == true;" (side_nav_event)="sideNavHandler($event)"></app-side-nav>
+
+    <!-- HEADER -->
+    <div class="wide">
+        <app-header (side_nav_event)="sideNavHandler($event)" [header_title]="header_title"></app-header>
+    </div>
+
+    <!-- TODO FILTER -->
+    <div class="wide flex-c-cm" style="margin: 40px 0 60px 0; padding: 50px 0 0 0">
+        
+        <div id="upper-filter">
+            <!-- ALL TIME -->
+            <div [ngClass]="ngclass_filter_all" style="width: 100%;" (click)="applyFilter(4)">
+                All Task
+            </div>
+        </div>
+        <div id="lower-filter">
+            <!-- Leftover -->
+            <div [ngClass]="ngclass_filter_leftover" style="width: 33%;" (click)="applyFilter(2)">
+                Leftover
+            </div>
+            
+            <!-- Today -->
+            <div [ngClass]="ngclass_filter_today" style="width: 33%;" (click)="applyFilter(1)">
+                Today
+            </div>
+
+            <!-- Upcoming -->
+            <div [ngClass]="ngclass_filter_upcoming" style="width: 33%;" (click)="applyFilter(3)">
+                Upcoming
+            </div>
+        </div>
+    </div> 
+
+    <!-- TODO LIST -->
+    <div class="wide"  style="flex-grow: 1; background-color:  #FFFFFF;">
+        <app-todo-list [filter_identifier]="applied_filter_identifier" [ref_trigger]="ref_trigger" ></app-todo-list>
+    </div>
+
+    <!-- ADD BTN -->
+    <div id="add-task-but" class="wide" (click)="openNewForm()">
+        <!-- plus -->
+        <fa-icon icon="plus" class="ovw-icon-add-task"></fa-icon>
+    </div>
+</div>

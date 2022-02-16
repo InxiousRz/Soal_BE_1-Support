@@ -1,0 +1,205 @@
+<div class="wide" style="background-color: #FFFFFF;">
+
+    <!-- LIST CONTAINER -->
+    <div class="wide flex-c-cm" >
+
+        <!-- Top Bar -->
+        <div class="wide-90 flex-r-cm" >
+            <!-- Spaces -->
+            <div class="wide-25" >
+                &nbsp;
+            </div>
+
+            <!-- Infos -->
+            <div id="task-count-total" class="wide-50 flex-c-cm" style="margin: 5px 0px 5px 0px;">
+                Total of 
+                {{
+                    todo_data_count
+                }} Task
+            </div>
+
+            <!-- Action -->
+            <div class="wide-25 flex-r-em"  style="margin: 5px 0px 5px 0px;">
+                <div class="flex-r-cm" style="margin-right: 20px;">
+                    <div [ngClass]="ngclass_box_formation" (click)="changeViewMode(1)">
+                        <!-- grip-horizontal -->
+                        <fa-icon icon="grip-horizontal" class="ovw-icon-task-box-formation"></fa-icon>
+                    </div>
+                    <div [ngClass]="ngclass_rectangle_formation" (click)="changeViewMode(2)">
+                        <!-- grip-lines -->
+                        <fa-icon icon="grip-lines" class="ovw-icon-task-box-formation"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+        <!-- Task -->
+        <div *ngIf="task_loading_state == true; then loading_view else task_view" class="wide-90 flex-c-cm" >
+        </div>
+
+
+        <ng-template #task_view>
+            
+            <div class="wide-90 flex-c-cm">
+
+                <!-- SCROLL BOX -->
+                <div *ngFor="let date_string of todo_data_key_list; let i = index" id="task-scroll-box" class="wide flex-c-cm">
+                    <!-- TASK PER DAY TITLE -->
+                    <div class="wide flex-c-sm">
+                        <div class="task-day-date">
+                            {{date_string}}
+                        </div>
+                        <div class="task-day-dow">
+                            {{todo_data[date_string]["String_Day"]}}
+                        </div>
+                        <div class="task-day-line">
+                            &nbsp;
+                        </div>
+                    </div>
+
+                    <!-- CONTAINER FORMATION -->
+                    <div *ngIf="task_view_mode == 1; then boxed else rectangled" class="wide">
+                    </div>
+                    <ng-template #boxed>
+                        <div class="wide">
+                            <!-- TASK PER DAY CONTAINER -->
+                            <div *ngFor="let task of todo_data[date_string]['Task_List']; let i = index" class="task-node-box flex-c-cm box-hover-an" (click)="openDetailForm(task['Task_ID'])">
+
+                                <!-- TASK NODE -->
+                                <div class="wide tall-80 wide flex-c-em">
+                                    <div class="task-node-title">
+                                        {{cutTitle(task["Title"])}}
+                                    </div>
+                                    <div class="wide flex-r-sm" style="margin-bottom: 10px;">
+                                        <div style="text-align: center;">
+                                            <div class="task-progress-info blue">
+                                                {{task["Counter_Data"]["Count_All"]}} Objective
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div class="task-progress-info green">
+                                                {{task["Counter_Data"]["Count_Finish"]}} finished
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div class="task-progress-info red">
+                                                {{task["Counter_Data"]["Count_Unfinish"]}} unfinished
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        {{cutText(task["Sumary_String"])}}
+                                    </div>
+                                    
+                                </div>
+
+                                <!-- TASK NODE END -->
+                                <div class="wide tall-20 flex-c-ce" style=" font-size:10pt">
+                                    Last Update at {{task["Last_Update_String"]}}
+                                </div>
+
+                                <!-- VIEW HOVER -->
+                                <div class="task-box-view-hover"> 
+                                    View Task 
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #rectangled>
+                        <div class="wide">
+                            <!-- TASK PER DAY CONTAINER 2-->
+                            <div *ngFor="let task of todo_data[date_string]['Task_List']; let i = index" class="task-node-box-2 wide tall flex-r-cm box-hover-an" (click)="openDetailForm(task['Task_ID'])">
+
+                                <div class="wide tall flex-c-cm">
+                                    <!-- TASK NODE -->
+                                    <div class="wide tall-80 wide flex-c-em">
+                                        <div class="task-node-title">
+                                            {{cutTitle(task["Title"])}}
+                                        </div>
+
+                                        <div class="wide flex-r-sm" style="margin-bottom: 10px;">
+                                            <div style="text-align: center;">
+                                                <div class="task-progress-info blue">
+                                                    {{task["Counter_Data"]["Count_All"]}} Objective
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div class="task-progress-info green">
+                                                    {{task["Counter_Data"]["Count_Finish"]}} finished
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <div class="task-progress-info red">
+                                                    {{task["Counter_Data"]["Count_Unfinish"]}} unfinished
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            {{cutText(task["Sumary_String"])}}
+                                        </div>
+                                        
+                                    </div>
+
+                                    <!-- TASK NODE END -->
+                                    <div class="wide tall-20 flex-r-em" style="margin-right: 20px; font-size:10pt">
+                                        Last Update at {{task["Last_Update_String"]}}
+                                    </div>
+                                </div>
+
+                                
+
+                                <!-- VIEW HOVER -->
+                                <div class="tall task-box-view-hover-2"> 
+                                    <!-- eye -->
+                                    <fa-icon icon="eye" class=""></fa-icon>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                        
+
+
+                        
+                    
+
+
+                    <!-- ------------------------------------------------------------------------------ -->
+                    <div class="spacer20">
+                        &nbsp;
+                    </div>
+                    <!-- ------------------------------------------------------------------------------ -->
+
+                    
+                    
+                </div>
+            </div>
+
+        </ng-template>
+
+        <ng-template #loading_view>
+            
+            <div class="wide-90 flex-r-cm" style="min-height: 30vh;">
+                <div class="spinner-grow text-primary" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning" role="status" style="margin: 10px;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+        </ng-template>
+
+    </div>
+</div>

@@ -1,0 +1,182 @@
+
+<div>
+    <div class="modal-header">
+        {{modal_title}}
+    </div>
+    <div class="modal-body" style="min-height: 70vh; width: 100%; padding:0 10px 0 10px; margin: 10px 0 0 0;">
+        
+        <div style="margin:0; padding:0; width: 100%;">
+            <form>
+                <!-- TITLE -->
+                <div class="form-group">
+                    <label for="exampleInputText1">Title</label>
+                    <input type="text" class="form-control" id="exampleInputText1" aria-describedby="titlelHelp" placeholder="Input Task Title" [(ngModel)]="task_title" name="task_input_title" required>
+                    
+                    <small *ngIf="(task_title_error_text == '')" id="titlelHelp" class="form-text text-muted">
+                        Describe your task with a title
+                    </small>
+                    <div *ngIf="(task_title_error_text != '')" class="invalid-input-form">
+                        {{task_title_error_text}}
+                    </div>
+                </div>
+            </form>
+            <form>
+                <!-- SET DATE FOR -->
+                <div *ngIf="form_type == 'ADD';" class="form-group">
+                    <label for="exampleInputText1">Action Date</label>
+                    <div class="input-group">
+                        <input class="form-control" placeholder="dd-mm-yyyy"
+                                name="d" #c="ngModel" [(ngModel)]="task_date_for" ngbDatepicker #d="ngbDatepicker" >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="d.toggle()">
+                                <!-- calendar-alt -->
+                                <fa-icon icon="calendar-alt" class="ovw-icon-calendar"></fa-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <small *ngIf="(task_date_error_text == '')" id="titlelHelp" class="form-text text-muted">
+                        Select date for your task
+                    </small>
+                    <div *ngIf="(task_date_error_text != '')" class="invalid-input-form">
+                        {{task_date_error_text}}
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        
+
+        <div class="invalid-input-form" style="border-bottom: 2px solid #000000; text-align: center; margin: 10px 0 10px 0; padding: 0 0 10px 0;">
+            {{task_objective_error_text}}
+        </div>
+
+        <div style="max-height:25vh; overflow:auto; display:flex; flex-direction: column-reverse; margin:0; padding:0; width: 100%;">
+            
+            <form>
+                <!-- ADDED OBJECTIVE -->
+                <div *ngIf="form_type == 'ADD'; then add_objective_view else edit_button_view">
+                </div>
+                <ng-template #add_objective_view>
+                    
+                    <div *ngFor="let objective of objective_list; let i = index" style="margin: 10px 20px 10px 20px;">
+                        <!-- ON VIEW DEFAULT -->
+                        <div class="row align-items-center" *ngIf="!(widget_state_map.Edit_Objective_Index === i)">
+                            <div class="view-objective" (click)="showEditObjective(i)">
+                                <p class="form-control-plaintext">
+                                    {{objective}}
+                                </p>
+                            </div>
+                            <div class="col" style="cursor: pointer;">
+                                <!-- edit -->
+                                <fa-icon icon="times" class="ovw-icon-cancel-task" (click)="deleteEditObjective(i)"></fa-icon>
+                            </div>
+                        </div>
+                        
+                        <!-- HIDE | SHOW ON EDIT -->
+                        <form class="was-validated">
+                            <div class="form-group"  *ngIf="(widget_state_map.Edit_Objective_Index === i)">
+                                <textarea class="form-control" rows="3" placeholder="Input Task" [(ngModel)]="objective_updated_text" name="objective_edit_text" required></textarea> 
+                                <!-- HIDE | SHOW ON EDIT -->
+                                <div class="row" style="padding-left: 7%; margin: 10px 0 0 0;">
+                                    <!-- Save -->
+                                    <div class="mini-btn-set c-update" (click)="saveEditObjective(i)">
+                                        Update
+                                    </div>
+                                    <!-- Cancel -->
+                                    <div class="mini-btn-set c-cancel" (click)="hideEditObjective()">
+                                        Cancel
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </ng-template>
+                <ng-template #edit_button_view>
+                    
+                    <div *ngFor="let objective of objective_list; let i = index" style="margin: 10px 20px 10px 20px;">
+                        <!-- ON VIEW DEFAULT -->
+                        <div class="row align-items-center" *ngIf="!(widget_state_map.Edit_Objective_Index === i)">
+                            <div class="view-objective" (click)="showEditObjective(i)">
+                                <p class="form-control-plaintext">
+                                    {{objective.Objective_Name}}
+                                </p>
+                            </div>
+                            <div class="col" style="cursor: pointer;">
+                                <!-- edit -->
+                                <fa-icon icon="times" class="ovw-icon-cancel-task" (click)="deleteEditObjective(i)"></fa-icon>
+                            </div>
+                        </div>
+                        
+                        <!-- HIDE | SHOW ON EDIT -->
+                        <form class="was-validated">
+                            <div class="form-group"  *ngIf="(widget_state_map.Edit_Objective_Index === i)">
+                                <textarea class="form-control" rows="3" placeholder="Input Task" [(ngModel)]="objective_updated_text" name="objective_edit_text" required></textarea> 
+                                <!-- HIDE | SHOW ON EDIT -->
+                                <div class="row" style="padding-left: 7%; margin: 10px 0 0 0;">
+                                    <!-- Save -->
+                                    <div class="mini-btn-set c-update" (click)="saveEditObjective(i)">
+                                        Update
+                                    </div>
+                                    <!-- Cancel -->
+                                    <div class="mini-btn-set c-cancel" (click)="hideEditObjective()">
+                                        Cancel
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </ng-template>
+            </form>
+            
+        </div>
+        
+        <div style="border-top: 2px solid #000000; text-align: center; margin: 10px 0 10px 0; padding: 5px 0 0 0; color: #0d6efd;">
+            <small class="form-text text-muted wide" style="text-align: center;">
+                Contain {{objective_list.length}} Objective
+            </small>
+        </div>
+
+        
+
+        <!-- ADD TASK -->
+        <form class="was-validated">
+            <!-- ADD BTN -->
+            <div *ngIf="!widget_state_map.Add_Objective" class="add-objective-but flex-r-cm" (click)="viewAddObjective()">
+                Add New Objective
+            </div>
+            
+            <!-- HIDE | SHOW ON BTN ADD -->
+            <div [ngClass]="cls_add_objective_form">
+                <label for="exampleFormControlTextarea1">Add Task Objective</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="objective_added_text" name="objective_add_text" required></textarea>
+            </div>
+            <div [ngClass]="cls_add_objective_btn_set" style="margin-left: 10px;">
+                <!-- Save -->
+                <div class="mini-btn-set c-save" (click)="saveAddObjective()">
+                    Add
+                </div>
+                <!-- Cancel -->
+                <div class="mini-btn-set c-cancel" (click)="hideAddObjective()">
+                    Cancel
+                </div>
+            </div>
+        </form>
+          
+    </div>
+    <div class="modal-footer">
+        <!-- EDIT BUTTON -->
+        <div *ngIf="form_type == 'ADD';" class="obj-detail-save-btn" (click)="saveObjective()">
+            Save
+        </div>
+        <!-- EDIT BUTTON -->
+        <div *ngIf="form_type == 'UPDATE';" class="obj-detail-update-btn" (click)="saveObjective()">
+            Update
+        </div>
+        <!-- CANCEL BUTTON -->
+        <div class="obj-detail-cancel-btn" (click)="modal.dismiss('Objective Detail Page')">
+            Cancel
+        </div>
+    </div>
+</div>

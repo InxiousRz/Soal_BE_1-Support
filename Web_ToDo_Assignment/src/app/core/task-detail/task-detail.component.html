@@ -1,0 +1,81 @@
+
+<div>
+    <div class="modal-header">
+        <!-- TASK TITLE -->
+        <div class="obj-detail-task-title">
+            {{task_data["Title"]}}
+        </div>
+        <!-- CLOSE BUTTON -->
+        <div (click)="modal.dismiss('Objective Detail Page')" style="cursor: pointer;">
+            <!-- times-circle -->
+            <fa-icon icon="times" class="ovw-icon-add-task"></fa-icon>
+        </div>
+    </div>
+    <div class="modal-body" style="max-height: 75vh; overflow:auto;">
+        <div class="wide"> 
+            <!-- OBJECTIVE NODE -->
+            <div *ngFor="let objective of task_data['Objective_List']; let i = index" class="wide tall inputGroup flex-r-sm">
+                <input [disabled]="is_already_completed" id="{{'option' + i.toString()}}" name="{{'option' + i.toString()}}" type="checkbox" style="flex-grow: 1;"  [checked]="objective['Is_Finished']" (click)="setObjectiveFinished(i)"/>
+                <label for="{{'option' + i.toString()}}" style="flex-grow: 1;">
+                    {{objective["Objective_Name"]}}
+                </label>
+                <div class="icon-checkbox-container tall flex-c-cm">
+                    <!-- check -->
+                    <fa-icon icon="check" class="ovw-icon-checkbox-task"></fa-icon>
+                </div>
+            </div>
+        </div>
+        <div class="wide flex-c-cm">
+            {{objective_summary["Objective_Finished"]}} of {{objective_summary["Objective_Total"]}} completed
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <div class="flex-r-cm" *ngIf="is_already_completed != true;">
+
+            <!-- SAVE BUTTON -->
+            <div *ngIf="save_loading_state == true; then save_loading_view else save_button_view">
+                
+            </div>
+            <ng-template #save_button_view>
+                <div class="obj-detail-save-btn flex-c-cm" (click)="saveData(task_data['Task_ID'])">
+                    {{ getSaveButtonText() }}
+                </div>
+            </ng-template>
+            
+            <ng-template #save_loading_view>
+                <div class="obj-detail-save-btn flex-c-cm">
+                    <div class="spinner-border text-light" role="status">
+                    </div>
+                </div>
+            </ng-template>
+
+            <!-- EDIT BUTTON -->
+            <div *ngIf="edit_loading_state == true; then edit_loading_view else edit_button_view">
+                
+            </div>
+            <ng-template #edit_button_view>
+                <div  class="obj-detail-edit-btn flex-c-cm" (click)="openFormUpdate()">
+                    Edit
+                </div>
+            </ng-template>
+            
+            <ng-template #edit_loading_view>
+                <div class="obj-detail-edit-btn flex-c-cm">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </ng-template>
+
+        </div>
+        
+        
+
+        <!-- DELETE BUTTON -->
+        <div class="obj-detail-delete-btn" (click)="openDeleteConfirmationDialogue()">
+            <!-- trash-alt -->
+            <fa-icon icon="trash-alt" class="ovw-icon-delete-task"></fa-icon>
+        </div>
+    </div>
+</div>

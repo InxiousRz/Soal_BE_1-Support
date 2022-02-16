@@ -1,0 +1,89 @@
+.obj-detail-save-btn {
+    padding: 5px 15px 5px 15px;
+    color: #FFFFFF;
+    font-size: 18pt;
+    font-weight: 600;
+    background-color: #198754;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.obj-detail-update-btn {
+    padding: 5px 15px 5px 15px;
+    color: #FFFFFF;
+    font-size: 18pt;
+    font-weight: 600;
+    background-color: #0d6efd;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.obj-detail-cancel-btn {
+    padding: 5px 10px 5px 10px;
+    color: #FFFFFF;
+    font-size: 18pt;
+    font-weight: 600;
+    background-color: #dc3545;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.add-objective-but {
+    padding: 5px 10px 5px 10px;
+    background-color: #198754;
+    color: #FFFFFF;
+    font-size: 14pt;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 10px 0px 10px 0px;
+    cursor: pointer;
+}
+
+.mini-btn-set {
+    text-align: center;
+    width: 80px;
+    padding: 3px 7px 3px 7px;
+    color: #FFFFFF;
+    font-size: 12pt;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 5px 10px 5px 0px;
+    cursor: pointer;
+}
+
+.mini-btn-set.c-cancel {
+    background-color: #dc3545;
+}
+
+.mini-btn-set.c-update {
+    background-color: #198754;
+}
+
+.mini-btn-set.c-save {
+    background-color: #198754;
+}
+
+
+.ovw-icon-cancel-task {
+    font-size: 18pt;
+    color: #333333;
+    margin-left: 10px;
+}
+
+
+.view-objective {
+    background-color: #FFFFFF;
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding-left: 10px;
+    cursor: text;
+    width: 85%;
+}
+
+.invalid-input-form {
+    color: #dc3545;
+    font-size: 10pt;
+}
